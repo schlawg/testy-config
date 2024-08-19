@@ -51,6 +51,7 @@ services:
     volumes:
       - ../deploy:/app
       - .:/config
+      - /etc/lichess-stage.logger.xml:/app/conf/logger.dev.xml
     restart: "no"
     entrypoint: bin/lila -Dconfig.file=/config/application.conf -Dlogback.configuration=
 
