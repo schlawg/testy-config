@@ -38,6 +38,12 @@ services:
     container_name: testy-lila
     image: docker.io/library/eclipse-temurin:21
     working_dir: /app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9663"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
     networks:
       - lila-network
     ports:
@@ -46,12 +52,15 @@ services:
       - ../deploy:/app
       - .:/config
     restart: "no"
-    entrypoint: /app/bin/lila -Dconfig.file=/config/application.conf
+    entrypoint: bin/lila -Dconfig.file=/config/application.conf
 
   lila_fishnet:
     container_name: testy-lila-fishnet
     image: ghcr.io/lichess-org/lila-fishnet:latest
     working_dir: /app
+    depends_on:
+      lila:
+        condition: service_healthy
     networks:
       - lila-network
     volumes:
