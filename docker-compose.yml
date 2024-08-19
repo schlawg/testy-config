@@ -52,7 +52,7 @@ services:
       - ../deploy:/app
       - .:/config
     restart: "no"
-    entrypoint: bin/lila -Dconfig.file=/config/application.conf
+    entrypoint: bin/lila -Dconfig.file=/config/application.conf -Dlogback.configuration=
 
   lila_fishnet:
     container_name: testy-lila-fishnet
