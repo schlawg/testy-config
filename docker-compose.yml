@@ -51,18 +51,24 @@ services:
   lila_fishnet:
     container_name: testy-lila-fishnet
     image: ghcr.io/lichess-org/lila-fishnet:latest
+    working_dir: /app
     networks:
       - lila-network
+    volumes:
+      - ..:/app
     restart: "no"
     command: ["-Dredis.uri=redis://redis"]
 
   lila_ws:
     container_name: testy-lila-ws
     image: ghcr.io/lichess-org/lila-ws:latest
+    working_dir: /app
     networks:
       - lila-network
     ports:
       - "127.0.0.1:19664:9664"
+    volumes:
+      - ..:/app
     restart: "no"
     command: ["-Dmongo.uri=mongodb://mongodb", "-Dredis.uri=redis://redis", "-Dcsrf.origin=https://testy.lichess.dev", "-Dcookie.name=testy"]
 
